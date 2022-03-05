@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        gametype: ['SKYRIMSE', 'SKYRIMAE']
+        gametype: ['VERSION_SE', 'VERSION_AE']
 
     steps:
     - uses: actions/checkout@v2
