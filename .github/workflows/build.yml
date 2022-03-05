@@ -12,6 +12,8 @@ jobs:
     strategy:
       matrix:
         gametype: ['VERSION_SE', 'VERSION_AE']
+    env:
+      VCPKG_ROOT: C:\vcpkg
 
     steps:
     - uses: actions/checkout@v2
