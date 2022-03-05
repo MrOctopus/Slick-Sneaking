@@ -27,7 +27,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: |
-          ./build/*
+          ./build/**/*
           !./build/packaging
         key: ${{ runner.os }}-build-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakePresets.json', './src/CMakeLists.txt') }}
 
