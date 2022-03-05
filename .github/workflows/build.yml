@@ -35,4 +35,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Slick Sneaking - ${{ matrix.gametype }}
-        path: ./build/packaging/_CPack_Packages/win64/ZIP/SlickSneaking/main/SKSE
+        path: ./build/packaging/_CPack_Packages/win64/ZIP/SlickSneaking/main
