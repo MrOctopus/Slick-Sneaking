@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(
-	ExampleProject
+	nl_test
 	VERSION 1.0.0
 	LANGUAGES CXX
 )
@@ -17,12 +17,24 @@ macro(set_from_environment VARIABLE)
 	endif()
 endmacro()
 
-set_from_environment(Skyrim64Path)
-if(NOT DEFINED Skyrim64Path)
-	message(FATAL_ERROR "Skyrim64Path is not set")
+option(COPY_OUTPUT "copy the output of build operations to the game directory" OFF)
+option(COPY_OUTPUT_MO "copy the output of build operations to the mo2 overwrite directory" OFF)
+
+if("${COPY_OUTPUT}")
+	set_from_environment(Skyrim64Path)
+
+	if(NOT DEFINED Skyrim64Path)
+		message(FATAL_ERROR "Skyrim64Path is not set")
+	endif()
 endif()
 
-option(COPY_OUTPUT "copy the output of build operations to the game directory" OFF)
+if("${COPY_OUTPUT_MO}")
+	set_from_environment(SkyrimMoPath)
+
+	if(NOT DEFINED SkyrimMoPath)
+		message(FATAL_ERROR "SkyrimMoPath is not set")
+	endif()
+endif()
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 

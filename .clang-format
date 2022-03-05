@@ -1,4 +1,4 @@
-﻿---
+---
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: 'false'
@@ -15,7 +15,7 @@ AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: 'false'
 AllowShortEnumsOnASingleLine: 'true'
 AllowShortFunctionsOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: Never
+AllowShortIfStatementsOnASingleLine: WithoutElse
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: 'true'
 AlwaysBreakAfterReturnType: None
@@ -35,7 +35,7 @@ BraceWrapping:
     AfterUnion: 'true'
     AfterExternBlock: 'true'
     BeforeCatch: 'false'
-    BeforeElse: 'false'
+    BeforeElse: 'true'
     BeforeLambdaBody: 'false'
     BeforeWhile: 'false'
     IndentBraces: 'false'

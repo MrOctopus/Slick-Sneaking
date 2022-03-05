@@ -5,6 +5,13 @@
 #include <REL/Relocation.h>
 #include <SKSE/SKSE.h>
 
+#include <memory>
+#include <cmath>
+
+#ifndef NDEBUG
+#	include <Windows.h>
+#endif
+
 #ifdef NDEBUG
 #	include <spdlog/sinks/basic_file_sink.h>
 #else

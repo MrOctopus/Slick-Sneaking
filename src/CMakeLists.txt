@@ -2,7 +2,15 @@ set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 set(SOURCE_DIR "${ROOT_DIR}/src")
 set(SOURCE_FILES
+	"${SOURCE_DIR}/Handler/SneakAttack.h"
+	"${SOURCE_DIR}/Handler/SneakAttack.cpp"
+	"${SOURCE_DIR}/Listeners/Hooks.h"
+	"${SOURCE_DIR}/Listeners/Hooks.cpp"
+	"${SOURCE_DIR}/Data.h"
+	"${SOURCE_DIR}/Data.cpp"
 	"${SOURCE_DIR}/main.cpp"
+	"${SOURCE_DIR}/Utility.h"
+	"${SOURCE_DIR}/Utility.cpp"
 	"${SOURCE_DIR}/PCH.h"
 )
 
@@ -51,6 +59,11 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 			"/Zc:preprocessor"	# Enable preprocessor conformance mode
 
 			"/wd4200" # nonstandard extension used : zero-sized array in struct/union
+			"/wd5105" # macro expansion producing 'defined' has undefined behavior
+			"/wd4100" # unreferenced formal parameter
+			"/wd4189" # local variable is initialized but not referenced
+			"/wd4702" # unreachable code
+			"/wd4244" # conversion from double to float
 
 			"$<$<CONFIG:DEBUG>:>"
 			"$<$<CONFIG:RELEASE>:/Zc:inline;/JMC-;/Ob3>"
@@ -105,6 +118,16 @@ if("${COPY_OUTPUT}")
 		POST_BUILD
 		COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:${PROJECT_NAME}>" "${Skyrim64Path}/Data/SKSE/Plugins/"
 		COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_PDB_FILE:${PROJECT_NAME}>" "${Skyrim64Path}/Data/SKSE/Plugins/"
+		VERBATIM
+	)
+endif()
+
+if("${COPY_OUTPUT_MO}")
+	add_custom_command(
+		TARGET "${PROJECT_NAME}"
+		POST_BUILD
+		COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:${PROJECT_NAME}>" "${SkyrimMoPath}/overwrite/SKSE/Plugins/"
+		COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_PDB_FILE:${PROJECT_NAME}>" "${SkyrimMoPath}/overwrite/SKSE/Plugins/"
 		VERBATIM
 	)
 endif()
