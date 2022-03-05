@@ -52,7 +52,7 @@ namespace Hooks
 		}
 
 		bool CanStealthAttack();
-		void UpdateCrosshair(bool a_state);
+		void UpdateCrosshair(bool a_state, double a_delta = 0.0);
 		void HookLogic(RE::StealthMeter* a_this, RE::UIMessage* a_message);
 
 	private:

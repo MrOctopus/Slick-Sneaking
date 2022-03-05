@@ -23,13 +23,22 @@ jobs:
         git submodule init
         git submodule update
 
-    - name: Retrieve cache
+    - name: Retrieve general cache
       uses: actions/cache@v2
       with:
         path: |
-          ./build/**/*
-          !./build/packaging
-        key: ${{ runner.os }}-build-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakePresets.json', './src/CMakeLists.txt') }}
+          ~/AppData/Local/vcpkg/archives
+        key: ${{ runner.os }}-build-general-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./vcpkg.json') }}
+
+    - name: Retrieve matrix cache
+      uses: actions/cache@v2
+      with:
+        path: ./build
+        key: ${{ runner.os }}-build-matrix-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakePresets.json', './src/CMakeLists.txt') }}
+
+    - name: Remove packaging
+      if: steps.cache.outputs.cache-hit == 'true'
+      run: Remove-Item -Recurse -Force ./build/packaging
 
     - name: Build
       run: |

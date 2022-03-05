@@ -112,7 +112,7 @@ namespace Hooks
 		return true;
 	}
 
-	void StealthMeterHandlerHook::UpdateCrosshair(bool a_active)
+	void StealthMeterHandlerHook::UpdateCrosshair(bool a_active, double a_delta)
 	{
 		auto UI = RE::UI::GetSingleton();
 		auto HUD = UI ? UI->GetMenu<RE::HUDMenu>() : nullptr;
@@ -139,7 +139,7 @@ namespace Hooks
 
 				// Lerping.
 				if (_lerping) {
-					_timer += _delta;
+					_timer += a_delta;
 					auto percentage = std::clamp(_timer / 0.3, 0.0, 1.0);
 
 					double x_lerp = std::lerp(_x_start, _x_end, percentage);
@@ -179,6 +179,7 @@ namespace Hooks
 		_enabled = a_enable;
 		if (!a_enable) {
 			valid_target = false;
+
 			SKSE::GetTaskInterface()->AddUITask([this]() {
 				this->UpdateCrosshair(false);
 			});
@@ -194,8 +195,10 @@ namespace Hooks
 			detection_level = a_this->unk88;
 			valid_target = CanStealthAttack();
 
-			SKSE::GetTaskInterface()->AddUITask([this]() {
-				this->UpdateCrosshair(true);
+			// Send delta as a variable to avoid race conditions
+			auto delta = this->_delta;
+			SKSE::GetTaskInterface()->AddUITask([this, delta]() {
+				this->UpdateCrosshair(true, _delta);
 			});
 		}
 	}
