@@ -23,7 +23,7 @@ jobs:
         path: |
           ./build/**
           !./build/packaging
-        key: ${{ runner.os }}-build-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakeLists.txt', './CMakePresets.json', './src/CMakeLists.txt') }}
+        key: ${{ runner.os }}-build-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakeLists.txt', './CMakePresets.json', './src/CMakeLists.txt') }}
 
     - name: Build
       run: |
