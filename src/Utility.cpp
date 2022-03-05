@@ -11,7 +11,11 @@ namespace Utility
 		bool PlayIdleRE(RE::AIProcess* a_actor_p, RE::Actor* a_actor, DefaultObject a_action, RE::TESIdleForm* a_form, bool a_unk_flag, bool a_unk_flag2, RE::TESObjectREFR* a_target)
 		{
 			using func_t = decltype(&PlayIdleRE);
+#ifdef SkyrimSE
+			REL::Relocation<func_t> func{ REL::ID{ 38290 } };
+#else
 			REL::Relocation<func_t> func{ REL::ID{ 39256 } };
+#endif
 			return func(a_actor_p, a_actor, a_action, a_form, a_unk_flag, a_unk_flag2, a_target);
 		}
 
@@ -19,14 +23,22 @@ namespace Utility
 		void ShowHUDMessageRE(const char* a_text, const char* a_menu, bool a_unk_flag)
 		{
 			using func_t = decltype(&ShowHUDMessageRE);
+#ifdef SkyrimSE
+			REL::Relocation<func_t> func{ REL::ID{ 52050 } };
+#else
 			REL::Relocation<func_t> func{ REL::ID{ 52933 } };
+#endif
 			func(a_text, a_menu, a_unk_flag);
 		}
 
 		std::uint32_t GetEquippedItemTypeRE(RE::TESForm* a_equipped_item)
 		{
 			using func_t = decltype(&GetEquippedItemTypeRE);
+#ifdef SkyrimSE
+			REL::Relocation<func_t> func{ REL::ID{ 14125 } };
+#else
 			REL::Relocation<func_t> func{ REL::ID{ 14220 } };
+#endif
 			return func(a_equipped_item);
 		}
 
@@ -36,7 +48,11 @@ namespace Utility
 		bool GetHeadingAngleRE(RE::TESObjectREFR* a_object, RE::TESObjectREFR* a_target, bool a_unk_flag, double& a_result)
 		{
 			using func_t = decltype(&GetHeadingAngleRE);
+#ifdef SkyrimSE
+			REL::Relocation<func_t> func{ REL::ID{ 21050 } };
+#else
 			REL::Relocation<func_t> func{ REL::ID{ 21500 } };
+#endif
 			return func(a_object, a_target, a_unk_flag, a_result);
 		}
 
@@ -44,7 +60,11 @@ namespace Utility
 		void MoveToRE(RE::TESObjectREFR* a_object, const RE::ObjectRefHandle& a_targetHandle, RE::TESObjectCELL* a_targetCell, RE::TESWorldSpace* a_selfWorldSpace, const RE::NiPoint3& a_position, const RE::NiPoint3& a_rotation)
 		{
 			using func_t = decltype(&MoveToRE);
-			REL::Relocation<func_t> func{ RE::Offset::TESObjectREFR::MoveTo };
+#ifdef SkyrimSE
+			REL::Relocation<func_t> func{ REL::ID{ 56227 } };
+#else
+			REL::Relocation<func_t> func{ REL::ID{ 56626 } };
+#endif
 			func(a_object, a_targetHandle, a_targetCell, a_selfWorldSpace, a_position, a_rotation);
 		}
 	}

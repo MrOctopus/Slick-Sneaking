@@ -79,6 +79,13 @@ namespace SneakAttack
 		if (!target) return;
 
 		auto player = RE::PlayerCharacter::GetSingleton();
+
+		if (player->GetActorValue(RE::ActorValue::kParalysis) == 1.0) return;
+
+		bool jumping;
+
+		if (player->GetGraphVariableBool("bInJumpState"sv, jumping) && jumping) return;
+
 		auto equipped_type = Utility::GetEquippedItemType(player->GetEquippedObject(false));
 
 		if (target->IsEssential()) {

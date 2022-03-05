@@ -16,8 +16,13 @@ namespace Hooks
 
 		static void Install()
 		{
+#ifdef SkyrimSE
+			REL::Relocation<std::uintptr_t> vtbl_player{ REL::ID{ 261916 } };
+			REL::Relocation<std::uintptr_t> vtbl_ui{ REL::ID{ 268828 } };
+#else
 			REL::Relocation<std::uintptr_t> vtbl_player{ REL::ID{ 208040 } };
 			REL::Relocation<std::uintptr_t> vtbl_ui{ REL::ID{ 215386 } };
+#endif
 
 			_func_update = vtbl_player.write_vfunc(0xAD, PlayerCharacterUpdate);
 			_func_ui = vtbl_ui.write_vfunc(0x2, ProcessMessage);
@@ -89,7 +94,11 @@ namespace Hooks
 
 		static void Install() 
 		{
+#ifdef SkyrimSE
+			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 263058 } };
+#else
 			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 208719 } };
+#endif
 			_func = vtbl.write_vfunc(0x4, ProcessButton);
 			logger::info("Installed {}"sv, typeid(AttackBlockHandlerHook).name());
 		}
@@ -127,8 +136,11 @@ namespace Hooks
 	public:
 		static void Install()
 		{
-			//REL::Relocation<std::uintptr_t> vtbl{ RE::RTTI_SneakHandler }; <-- This RTTI information is not updated
+#ifdef SkyrimSE
+			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 263066 } };
+#else
 			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 208733 } };
+#endif
 			_func = vtbl.write_vfunc(0x4, ProcessButton);
 			logger::info("Installed {}"sv, typeid(SneakHandlerHook).name());
 		}

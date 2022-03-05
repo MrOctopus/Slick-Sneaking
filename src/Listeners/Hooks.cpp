@@ -212,14 +212,13 @@ namespace Hooks
 		if (IsValidEvent(a_event)) {
 			auto stealh_hook = StealthMeterHandlerHook::GetSingleton();
 
-			// Need to check for paralysis
-			// player controls enabled
-			// swimming
-			// falling, etc
-
 			if (stealh_hook->valid_target) {
-				SneakAttack::TriggerEvent();
-				return false;
+				auto control_map = RE::ControlMap::GetSingleton();
+
+				if (control_map && control_map->IsFightingControlsEnabled()) {
+					SneakAttack::TriggerEvent();
+					return false;
+				}
 			}
 		}
 		return true;
