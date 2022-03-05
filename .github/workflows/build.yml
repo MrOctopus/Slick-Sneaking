@@ -28,6 +28,8 @@ jobs:
 
     - name: Build
       run: cmake --build build --config Release --target package
+      env:
+        Skyrim_CI_ENV: ${{ matrix.gametype }}
 
     - name: Upload build
       uses: actions/upload-artifact@v2

@@ -39,7 +39,7 @@ endif()
 set_from_environment(Skyrim_CI_ENV)
 
 if(DEFINED Skyrim_CI_ENV)
-	add_compile_definitions($ENV{Skyrim_CI_ENV})
+	add_compile_definitions(${Skyrim_CI_ENV})
 else()
 	option(SKYRIMSE "set the skyrim build version to SE, defaults to AE" OFF)
 
