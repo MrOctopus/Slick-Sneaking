@@ -1,4 +1,6 @@
 # Slick Sneaking
+[![](https://github.com/MrOctopus/slick-sneaking/actions/workflows/build.yml/badge.svg)](https://github.com/MrOctopus/slick-sneaking/actions/workflows/cibuildyml)
+
 Sneaking the way Dovahkiin intended it.
 
 ## Features

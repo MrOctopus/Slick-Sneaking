@@ -11,7 +11,7 @@ namespace Utility
 		bool PlayIdleRE(RE::AIProcess* a_actor_p, RE::Actor* a_actor, DefaultObject a_action, RE::TESIdleForm* a_form, bool a_unk_flag, bool a_unk_flag2, RE::TESObjectREFR* a_target)
 		{
 			using func_t = decltype(&PlayIdleRE);
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<func_t> func{ REL::ID{ 38290 } };
 #else
 			REL::Relocation<func_t> func{ REL::ID{ 39256 } };
@@ -23,7 +23,7 @@ namespace Utility
 		void ShowHUDMessageRE(const char* a_text, const char* a_menu, bool a_unk_flag)
 		{
 			using func_t = decltype(&ShowHUDMessageRE);
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<func_t> func{ REL::ID{ 52050 } };
 #else
 			REL::Relocation<func_t> func{ REL::ID{ 52933 } };
@@ -34,7 +34,7 @@ namespace Utility
 		std::uint32_t GetEquippedItemTypeRE(RE::TESForm* a_equipped_item)
 		{
 			using func_t = decltype(&GetEquippedItemTypeRE);
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<func_t> func{ REL::ID{ 14125 } };
 #else
 			REL::Relocation<func_t> func{ REL::ID{ 14220 } };
@@ -42,13 +42,12 @@ namespace Utility
 			return func(a_equipped_item);
 		}
 
-
 		// a_unk_flag is usually always false
 		// seems to be unused?
 		bool GetHeadingAngleRE(RE::TESObjectREFR* a_object, RE::TESObjectREFR* a_target, bool a_unk_flag, double& a_result)
 		{
 			using func_t = decltype(&GetHeadingAngleRE);
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<func_t> func{ REL::ID{ 21050 } };
 #else
 			REL::Relocation<func_t> func{ REL::ID{ 21500 } };
@@ -60,7 +59,7 @@ namespace Utility
 		void MoveToRE(RE::TESObjectREFR* a_object, const RE::ObjectRefHandle& a_targetHandle, RE::TESObjectCELL* a_targetCell, RE::TESWorldSpace* a_selfWorldSpace, const RE::NiPoint3& a_position, const RE::NiPoint3& a_rotation)
 		{
 			using func_t = decltype(&MoveToRE);
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<func_t> func{ REL::ID{ 56227 } };
 #else
 			REL::Relocation<func_t> func{ REL::ID{ 56626 } };

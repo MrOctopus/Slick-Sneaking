@@ -1,0 +1,32 @@
+name: build
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - 'src/**'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        gametype: ['SKYRIMSE', 'SKYRIMAE']
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Prepare build
+      run: |
+        git submodule init
+        git submodule update
+        cmake --preset vs2022-windows -D${Env:type}=ON
+        cmake --build build --config Release --target package
+      env:
+        type: ${{ matrix.gametype }}
+
+    - name: Upload source
+      uses: actions/upload-artifact@v2
+      with:
+        name: Slick Sneaking - ${{ matrix.gametype }}
+        path: ./build/packaging/_CPack_Packages/win64/ZIP/SlickSneaking/main/SKSE

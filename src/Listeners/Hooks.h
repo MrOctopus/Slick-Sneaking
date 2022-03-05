@@ -16,7 +16,7 @@ namespace Hooks
 
 		static void Install()
 		{
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<std::uintptr_t> vtbl_player{ REL::ID{ 261916 } };
 			REL::Relocation<std::uintptr_t> vtbl_ui{ REL::ID{ 268828 } };
 #else
@@ -94,7 +94,7 @@ namespace Hooks
 
 		static void Install() 
 		{
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 263058 } };
 #else
 			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 208719 } };
@@ -136,7 +136,7 @@ namespace Hooks
 	public:
 		static void Install()
 		{
-#ifdef SkyrimSE
+#ifdef VERSION_SE
 			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 263066 } };
 #else
 			REL::Relocation<std::uintptr_t> vtbl{ REL::ID{ 208733 } };

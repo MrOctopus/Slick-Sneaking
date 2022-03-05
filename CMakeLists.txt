@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 project(
-	nl_test
+	SlickSneaking
 	VERSION 1.0.0
 	LANGUAGES CXX
 )
@@ -19,6 +19,7 @@ endmacro()
 
 option(COPY_OUTPUT "copy the output of build operations to the game directory" OFF)
 option(COPY_OUTPUT_MO "copy the output of build operations to the mo2 overwrite directory" OFF)
+option(SKYRIMSE "set the skyrim version to SE instead of the default AE" OFF)
 
 if("${COPY_OUTPUT}")
 	set_from_environment(Skyrim64Path)
@@ -34,6 +35,12 @@ if("${COPY_OUTPUT_MO}")
 	if(NOT DEFINED SkyrimMoPath)
 		message(FATAL_ERROR "SkyrimMoPath is not set")
 	endif()
+endif()
+
+if("${SKYRIMSE}")
+	add_compile_definitions(VERSION_SE)
+else()
+	add_compile_definitions(VERSION_AE)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
