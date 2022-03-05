@@ -19,7 +19,6 @@ endmacro()
 
 option(COPY_OUTPUT "copy the output of build operations to the game directory" OFF)
 option(COPY_OUTPUT_MO "copy the output of build operations to the mo2 overwrite directory" OFF)
-option(SKYRIMSE "set the skyrim version to SE instead of the default AE" OFF)
 
 if("${COPY_OUTPUT}")
 	set_from_environment(Skyrim64Path)
@@ -37,10 +36,18 @@ if("${COPY_OUTPUT_MO}")
 	endif()
 endif()
 
-if("${SKYRIMSE}")
-	add_compile_definitions(VERSION_SE)
+set_from_environment(Skyrim_CI_ENV)
+
+if(DEFINED Skyrim_CI_ENV)
+	add_compile_definitions($ENV{Skyrim_CI_ENV})
 else()
-	add_compile_definitions(VERSION_AE)
+	option(SKYRIMSE "set the skyrim build version to SE, defaults to AE" OFF)
+
+	if("${SKYRIMSE}")
+		add_compile_definitions(VERSION_SE)
+	else()
+		add_compile_definitions(VERSION_AE)
+	endif()
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")

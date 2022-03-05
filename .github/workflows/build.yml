@@ -20,12 +20,14 @@ jobs:
       run: |
         git submodule init
         git submodule update
-        cmake --preset vs2022-windows -D${Env:type}=ON
-        cmake --build build --config Release --target package
+        cmake --preset vs2022-windows
       env:
-        type: ${{ matrix.gametype }}
+        Skyrim_CI_ENV: ${{ matrix.gametype }}
 
-    - name: Upload source
+    - name: Build
+      run: cmake --build build --config Release --target package
+
+    - name: Upload build
       uses: actions/upload-artifact@v2
       with:
         name: Slick Sneaking - ${{ matrix.gametype }}
