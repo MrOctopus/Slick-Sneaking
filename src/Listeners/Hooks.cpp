@@ -59,8 +59,6 @@ namespace Hooks
 				return true;
 			}
 
-			logger::info("Invalid state"sv);
-
 			return false;
 		}
 
@@ -70,23 +68,23 @@ namespace Hooks
 			// 0: One-handed bare hand
 			// 1: One-handed sword
 			// 2: One-handed dagger
-
-			auto equipped = a_player->GetEquippedObject(false);
-			auto equipped_right_type = Utility::GetEquippedItemType(equipped);
-
-			if (equipped_right_type > 2) return false;
+			// 3: One-handed axe
+			// 4: One-handed mace
 
 			auto target_state = a_target->GetSitSleepState();
+			auto equipped = a_player->GetEquippedObject(false);
+			auto equipped_right_type = Utility::GetEquippedItemType(equipped);
 
 			switch (target_state) {
 			case RE::SIT_SLEEP_STATE::kWantToStand:
 			case RE::SIT_SLEEP_STATE::kIsSitting:
 				if (!IsValidFurniture(a_target)) return false;
 			case RE::SIT_SLEEP_STATE::kNormal:
+				if (equipped_right_type > 2) return false;
 				return IsValidHeading(a_player, a_target);
 			case RE::SIT_SLEEP_STATE::kIsSleeping:
 			case RE::SIT_SLEEP_STATE::kWantToWake:
-				return true;
+				return (equipped_right_type <= 4);
 			default:
 				return false;
 			}
