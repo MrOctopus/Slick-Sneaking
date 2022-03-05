@@ -45,6 +45,37 @@ namespace
 	}
 }
 
+#ifdef VERSION_SE
+extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
+{
+#ifndef NDEBUG
+	while (!IsDebuggerPresent()) Sleep(10);
+	Sleep(3000);
+#endif
+
+	InitializeLog();
+
+	a_info->infoVersion = SKSE::PluginInfo::kVersion;
+	a_info->name = Plugin::NAME.data();
+	a_info->version = Plugin::VERSION[0];
+
+	if (a_skse->IsEditor()) {
+		logger::critical("Loaded in editor, marking as incompatible"sv);
+		return false;
+	}
+
+	const auto ver = a_skse->RuntimeVersion();
+
+	if (ver < SKSE::RUNTIME_1_5_39) {
+		logger::critical(FMT_STRING("Unsupported runtime version {}"sv), ver.string());
+		return false;
+	}
+
+	logger::info("{} v{}"sv, Plugin::NAME, Plugin::VERSION.string());
+
+	return true;
+}
+#else
 extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 	SKSE::PluginVersionData v;
 
@@ -75,3 +106,4 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 
 	return true;
 }
+#endif

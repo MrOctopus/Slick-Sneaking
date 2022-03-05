@@ -18,16 +18,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Prepare build
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ./build/**
+          !./build/packaging
+        key: ${{ runner.os }}-build-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakeLists.txt', './CMakePresets.json', './src/CMakeLists.txt') }}
+
+    - name: Build
       run: |
         git submodule init
         git submodule update
         cmake --preset vs2022-windows
-      env:
-        Skyrim_CI_ENV: ${{ matrix.gametype }}
-
-    - name: Build
-      run: cmake --build build --config Release --target package
+        cmake --build build --config Release --target package
       env:
         Skyrim_CI_ENV: ${{ matrix.gametype }}
 
