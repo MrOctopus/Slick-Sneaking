@@ -48,13 +48,6 @@ namespace
 #ifdef VERSION_SE
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
-#ifndef NDEBUG
-	while (!IsDebuggerPresent()) Sleep(10);
-	Sleep(3000);
-#endif
-
-	InitializeLog();
-
 	a_info->infoVersion = SKSE::PluginInfo::kVersion;
 	a_info->name = Plugin::NAME.data();
 	a_info->version = Plugin::VERSION[0];
@@ -71,8 +64,6 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a
 		return false;
 	}
 
-	logger::info("{} v{}"sv, Plugin::NAME, Plugin::VERSION.string());
-
 	return true;
 }
 #else
@@ -86,6 +77,7 @@ extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
 
 	return v;
 }();
+#endif
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
@@ -106,4 +98,3 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 
 	return true;
 }
-#endif
