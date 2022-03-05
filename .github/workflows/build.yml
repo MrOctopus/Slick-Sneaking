@@ -34,8 +34,12 @@ jobs:
       env:
         Skyrim_CI_ENV: ${{ matrix.gametype }}
 
+    - name: Prepare upload
+      if: success()
+      run: echo "build_name=$(Get-ChildItem -Path ./build/packaging/_CPack_Packages/win64/ZIP -Exclude *.zip | % { $_.BaseName })" >> ${Env:GITHUB_ENV}
+
     - name: Upload build
       uses: actions/upload-artifact@v2
       with:
-        name: Slick Sneaking - ${{ matrix.gametype }}
-        path: ./build/packaging/_CPack_Packages/win64/ZIP/SlickSneaking/main
+        name: ${{ env.build_name }} - ${{ matrix.gametype }}
+        path: ./build/packaging/_CPack_Packages/win64/ZIP/${{ env.build_name }}/main
