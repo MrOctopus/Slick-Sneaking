@@ -12,11 +12,11 @@ jobs:
     strategy:
       matrix:
         gametype: ['VERSION_SE', 'VERSION_AE']
-    env:
-      VCPKG_ROOT: ${{ env.VCPKG_INSTALLATION_ROOT }}
 
     steps:
     - uses: actions/checkout@v2
+
+    - run: echo "VCPKG_ROOT=${Env:VCPKG_INSTALLATION_ROOT}" >> ${Env:GITHUB_ENV}
 
     - name: Init Submodules
       run: |
