@@ -13,29 +13,32 @@ jobs:
       matrix:
         gametype: ['VERSION_SE', 'VERSION_AE']
     env:
-      VCPKG_ROOT: C:\vcpkg
+      VCPKG_ROOT: ${{ env.VCPKG_INSTALLATION_ROOT }}
 
     steps:
     - uses: actions/checkout@v2
 
-    - uses: actions/cache@v2
+    - name: Init Submodules
+      run: |
+        git submodule init
+        git submodule update
+
+    - name: Retrieve cache
+      uses: actions/cache@v2
       with:
         path: |
-          ./build/**
+          ./build/*
           !./build/packaging
         key: ${{ runner.os }}-build-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakePresets.json', './src/CMakeLists.txt') }}
 
     - name: Build
       run: |
-        git submodule init
-        git submodule update
         cmake --preset vs2022-windows
         cmake --build build --config Release --target package
       env:
         Skyrim_CI_ENV: ${{ matrix.gametype }}
 
     - name: Prepare upload
-      if: success()
       run: echo "build_name=$(Get-ChildItem -Path ./build/packaging/_CPack_Packages/win64/ZIP -Exclude *.zip | % { $_.BaseName })" >> ${Env:GITHUB_ENV}
 
     - name: Upload build
