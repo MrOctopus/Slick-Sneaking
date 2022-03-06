@@ -50,12 +50,16 @@ namespace Hooks
 
 		bool IsValidFurniture(RE::Actor* a_target)
 		{
-			auto furniture = a_target->GetOccupiedFurniture().get();
+			auto data_manager = Data::DataManager::GetSingleton();
+			auto furniture_base = a_target->GetOccupiedFurniture().get()->GetBaseObject()->As<RE::TESFurniture>();
 
-			// Holy fuck this will be a cluster fuck.
-			// Include or exclude? Hard to tell
+			if (Utility::HasKeywords(furniture_base, data_manager->furniture_keywords, false)) {
+				return true;
+			}
 
-			if (furniture->HasKeyword(Data::DataManager::GetSingleton()->keyword_cooking_pot)) {
+			auto furniture_name = std::string_view(furniture_base->GetModel());
+
+			if (furniture_name.find("Marker") != std::string::npos) {
 				return true;
 			}
 

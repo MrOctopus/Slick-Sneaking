@@ -44,6 +44,8 @@ namespace Utility
 
 		// a_unk_flag is usually always false
 		// seems to be unused?
+		// Anyway we use this instead of po3's native version because it is bork.
+		// Do I know how? No. Do I want to know why? No.
 		bool GetHeadingAngleRE(RE::TESObjectREFR* a_object, RE::TESObjectREFR* a_target, bool a_unk_flag, double& a_result)
 		{
 			using func_t = decltype(&GetHeadingAngleRE);
@@ -121,11 +123,12 @@ namespace Utility
 		return GetEquippedItemTypeRE(a_equipped_item);
 	}
 
-	void ShowHUDMessage(const char* a_text, const char* a_menu, bool a_unk_flag)
+	void ShowHUDMessage(const char* a_text, const char* a_menu)
 	{
-		ShowHUDMessageRE(a_text, a_menu, a_unk_flag);
+		ShowHUDMessageRE(a_text, a_menu, true);
 	}
 
+	// Replicates the papyrus version of this function
 	void MoveTo(RE::TESObjectREFR* a_object, RE::TESObjectREFR* a_target, float a_x_offset, float a_y_offset, float a_z_offset, bool a_match_rotation)
 	{
 		auto handle = a_target->GetHandle();
@@ -145,5 +148,20 @@ namespace Utility
 	{
 		auto angle_z = a_target->GetAngleZ();
 		MoveTo(a_object, a_target, std::sin(angle_z) * 64, std::cos(angle_z) * 64, 0, a_match_rotation);
+	}
+
+	// Credits to po3
+	bool HasKeywords(RE::BGSKeywordForm* a_form, const std::vector<RE::BGSKeyword*>& a_keywords, bool a_matchAll)
+	{
+		if (!a_keywords.empty()) {
+
+			if (a_matchAll) {
+				return std::ranges::all_of(a_keywords, [&](RE::BGSKeyword* keyword) { return a_form->HasKeyword(keyword); });
+			}
+			else {
+				return std::ranges::any_of(a_keywords, [&](RE::BGSKeyword* keyword) { return a_form->HasKeyword(keyword); });
+			}
+		}
+		return true;
 	}
 }

@@ -14,7 +14,10 @@ namespace Data
 		singleton->idle_choke_hold = RE::TESForm::LookupByID<RE::TESIdleForm>(0x01000816);
 
 		// Keywords
-		singleton->keyword_cooking_pot = RE::TESForm::LookupByID<RE::BGSKeyword>(0x000A5CB3);
+		singleton->furniture_keywords.reserve(3);
+		singleton->furniture_keywords.push_back(RE::TESForm::LookupByID<RE::BGSKeyword>(0x000A5CB3)); // Cooking pot
+		singleton->furniture_keywords.push_back(RE::TESForm::LookupByID<RE::BGSKeyword>(0x00072DFB));  // Chopping block
+		singleton->furniture_keywords.push_back(RE::TESForm::LookupByID<RE::BGSKeyword>(0x000BB958));  // Wood pick up
 
 		logger::info("Initialized {}"sv, typeid(DataManager).name());
 	}
