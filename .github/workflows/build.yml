@@ -15,7 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
     - run: echo "VCPKG_ROOT=${Env:VCPKG_INSTALLATION_ROOT}" >> ${Env:GITHUB_ENV}
 
     - name: Init Submodules
@@ -25,19 +24,23 @@ jobs:
 
     - name: Retrieve matrix cache
       id: cache-matrix
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ./build
-        key: ${{ runner.os }}-build-matrix-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakePresets.json', './src/CMakeLists.txt') }}
+        key: ${{ runner.os }}-build-matrix-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakeLists.txt', './CMakePresets.json', './src/CMakeLists.txt') }}
 
-    - name: Remove packaging
+    - name: Prepare build from scratch
+      if: steps.cache-matrix.outputs.cache-hit != 'true'
+      run: cmake --preset vs2022-windows
+      env:
+        Skyrim_CI_ENV: ${{ matrix.gametype }}
+
+    - name: Prepare build from cache
       if: steps.cache-matrix.outputs.cache-hit == 'true'
       run: Remove-Item -Recurse -Force ./build/packaging
 
     - name: Build
-      run: |
-        cmake --preset vs2022-windows
-        cmake --build build --config Release --target package
+      run: cmake --build build --config Release --target package
       env:
         Skyrim_CI_ENV: ${{ matrix.gametype }}
 
