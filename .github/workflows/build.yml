@@ -22,25 +22,10 @@ jobs:
         git submodule init
         git submodule update
 
-    - name: Retrieve matrix cache
-      id: cache-matrix
-      uses: actions/cache@v2
-      with:
-        path: ./build
-        key: ${{ runner.os }}-build-matrix-${{ matrix.gametype }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('./CMakeLists.txt', './CMakePresets.json', './src/CMakeLists.txt') }}
-
-    - name: Prepare build from scratch
-      if: steps.cache-matrix.outputs.cache-hit != 'true'
-      run: cmake --preset vs2022-windows
-      env:
-        Skyrim_CI_ENV: ${{ matrix.gametype }}
-
-    - name: Prepare build from cache
-      if: steps.cache-matrix.outputs.cache-hit == 'true'
-      run: Remove-Item -Recurse -Force ./build/packaging
-
     - name: Build
-      run: cmake --build build --config Release --target package
+      run: |
+        cmake --preset vs2022-windows
+        cmake --build build --config Release --target package
       env:
         Skyrim_CI_ENV: ${{ matrix.gametype }}
 
