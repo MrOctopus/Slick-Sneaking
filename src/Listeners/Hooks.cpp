@@ -59,7 +59,9 @@ namespace Hooks
 
 			auto furniture_name = std::string_view(furniture_base->GetModel());
 
-			if (furniture_name.find("Marker") != std::string::npos) {
+			// We're checking for "Marker" in the name, but to avoid
+			// case insensitive string comparisons we just search for "arker"
+			if (furniture_name.find("arker") != std::string::npos) {
 				return true;
 			}
 
